@@ -1,0 +1,14 @@
+1. ダウンロードしたZIPファイルを解答する。
+
+2. config.jsonの値を以下のように設定する。
+CHROME_VERSION: PC上で利用しているChromeのバージョンを設定する。Chromeの[ヘルプ] > [Google Chromeについて]から確認できる。
+EXCEL_FILE_PATH: IDとURLが記載されているEXCELファイルパスを設定する。(ファイル名も含める)
+EXCEL_SHEET_NAME: IDとURLが記載されているEXCELシート名を設定する。
+EXCEL_DATA_CONFIG['START_ROW']: IDとURLが記載されているセルのはじめの行を設定する。
+EXCEL_DATA_CONFIG['ID_COLUMN']: IDが記載されているセル列の番号を設定する。(左端は1からスタート)
+EXCEL_DATA_CONFIG['URL_COLUMN']: URLが記載されているセル列の番号を設定する。(左端は1からスタート)
+DRIVER_DIR: Chrome Driverが存在するディレクトリパスを設定する。(Chrome Driverのファイル名は含まず、ディレクトリパスのみ)
+DRIVER_MAP: 基本設定変更不要。
+
+3. 解凍したファイル内の「AutoPagePdf」もしくは「AutoPagePdf.exe」を起動する。
+※Windowsの場合は起動時に警告が出るが無視して実行。
