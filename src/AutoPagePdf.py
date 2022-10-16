@@ -16,7 +16,7 @@ from selenium.webdriver.support import expected_conditions as EC
 CONF = dict()
 
 def load_conf_file():
-    with open('config.json') as config:
+    with open('config.json', 'r', encoding="utf-8_sig") as config:
         global CONF
         CONF = json.load(config)
 
