@@ -16,7 +16,9 @@ from selenium.webdriver.support import expected_conditions as EC
 CONF = dict()
 
 def load_conf_file():
-    CONF = json.load('config.json')
+    with open('config.json') as config:
+        global CONF
+        CONF = json.load(config)
 
 def import_excel() -> dict:
     data = dict()

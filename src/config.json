@@ -1,11 +1,11 @@
 {
-    'CHROME_VERSION': '106.0.5249.119',
-    'EXCEL_FILE_NAME': 'pdf.xlsx',
-    'EXCEL_SHEET_NAME': 'シート1',
-    'DRIVER_DIR': '.',
-    'DRIVER_MAP' = {
-        'Linux': 'chromedriver_linux64.zip',
-        'Darwin': 'chromedriver_mac64.zip',
-        'Windows': 'chromedriver_win32.zip'
+    "CHROME_VERSION": "106.0.5249.119",
+    "EXCEL_FILE_NAME": "pdf.xlsx",
+    "EXCEL_SHEET_NAME": "シート1",
+    "DRIVER_DIR": ".",
+    "DRIVER_MAP": {
+        "Linux": "chromedriver_linux64.zip",
+        "Darwin": "chromedriver_mac64.zip",
+        "Windows": "chromedriver_win32.zip"
     }
 }
