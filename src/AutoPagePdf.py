@@ -3,7 +3,6 @@ import json
 import time
 import os
 import sys
-import stat
 import traceback
 import platform
 import zipfile
@@ -22,23 +21,23 @@ def load_conf_file():
 
 def import_excel() -> dict:
     data = dict()
-    workbook = openpyxl.load_workbook(CONF['EXCEL_FILE_NAME'])
+    workbook = openpyxl.load_workbook(CONF['EXCEL_FILE_PATH'], data_only=True)
     sheet = workbook[CONF['EXCEL_SHEET_NAME']]
-    row = 2
+    row = CONF['EXCEL_DATA_CONFIG']['START_ROW']
     
     while True:
-        id_num = sheet.cell(row=row, column=1).value
+        id_num = sheet.cell(row=row, column=CONF['EXCEL_DATA_CONFIG']['ID_COLUMN']).value
         if id_num == None:
             break
         else:
-            hello_work_num = sheet.cell(row=row, column=2).value
-            url = 'https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=dispDetailBtn&kJNo=' + hello_work_num + '&kJKbn=1&jGSHNo=B5VtkNVFHYHEOTF5MdwAqQ%3D%3D&fullPart=2&iNFTeikyoRiyoDtiID=&kSNo=&newArrived=&tatZngy=1&shogaiKbn=0'
+            url = sheet.cell(row=row, column=CONF['EXCEL_DATA_CONFIG']['URL_COLUMN']).value
             data[id_num] = url
             row += 1
     return data
 
 def __check_chromedriver_path(os_type) -> str:
-    if os_type == 'Linux' or 'Darwin':
+    print(os_type)
+    if os_type == 'Linux' or os_type == 'Darwin':
         driver_file_path = CONF['DRIVER_DIR']+ '/chromedriver'
         if os.path.exists(driver_file_path) is True:
             return driver_file_path
@@ -46,6 +45,7 @@ def __check_chromedriver_path(os_type) -> str:
             return ''
     elif os_type == 'Windows':
         driver_file_path = CONF['DRIVER_DIR'] + '/chromedriver.exe'
+        print(driver_file_path)
         if os.path.exists(driver_file_path) is True:
             return driver_file_path
         else:
@@ -82,7 +82,6 @@ def download_chromedriver() -> str:
     
         # Confirm if there is Chrome driver under the DRIVER_DIR
         chromedriver_path = __check_chromedriver_path(os_type)
-        print(chromedriver_path)
         if chromedriver_path == '':
             raise KeyError
         else:
@@ -90,6 +89,7 @@ def download_chromedriver() -> str:
             return chromedriver_path
 
     except KeyError as e:
+        traceback.print_exc()
         print('There is no support for this OS.(' + os_type + ')', file=sys.stderr)
         os._exit(1)
     except:
