@@ -1,2 +1,5 @@
 chromedriver
 pdf.xlsx
+src/AutoPagePdf.spec
+src/dist/
+src/build/

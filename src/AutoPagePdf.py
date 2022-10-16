@@ -15,7 +15,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 CONF = dict()
 
-def check_conf():
+def load_conf_file():
     CONF = json.load('config.json')
 
 def import_excel() -> dict:
@@ -145,6 +145,7 @@ def create_pdf(data, driver_path):
 
 if __name__ == '__main__':
     try:
+        load_conf_file()
         data = import_excel()
         driver_path = download_chromedriver()
         create_pdf(data, driver_path)
