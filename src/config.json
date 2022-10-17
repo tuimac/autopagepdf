@@ -1,6 +1,6 @@
 {
     "CHROME_VERSION": "106.0.5249.119",
-    "EXCEL_FILE_PATH": "pdf.xlsx",
+    "EXCEL_FILE_PATH": "PDF化.xlsx",
     "EXCEL_SHEET_NAME": "シート1",
     "EXCEL_DATA_CONFIG": {
         "START_ROW": 2,
@@ -8,9 +8,7 @@
         "URL_COLUMN": 3
     },
     "DRIVER_DIR": ".",
-    "DRIVER_MAP": {
-        "Linux": "chromedriver_linux64.zip",
-        "Darwin": "chromedriver_mac64.zip",
-        "Windows": "chromedriver_win32.zip"
-    }
+    "LOG_FILE_PATH": "execution.log",
+    "INTERVAL": 0.5,
+    "EXCLUDE_WORD": "情報の更新が行われたか、削除されました。"
 }

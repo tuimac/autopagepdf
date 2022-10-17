@@ -1,0 +1,19 @@
+version: 2.1
+jobs:
+  build-linux:
+    machine:
+      image: ubuntu-2204:202010-01
+    steps:
+      - checkout
+
+workflows:
+  version: 2.1
+  openvpn-pipeline:
+    jobs:
+      - test-image
+      - push-image:
+          requires:
+            - test-image
+          filters:
+            branches:
+              only: master

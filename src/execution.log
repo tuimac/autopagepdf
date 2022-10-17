@@ -1,0 +1,22 @@
+﻿Traceback (most recent call last):
+  File "/home/tuimac/github/autopagepdf/src/AutoPagePdf.py", line 155, in <module>
+    create_pdf(data, driver_path)
+  File "/home/tuimac/github/autopagepdf/src/AutoPagePdf.py", line 147, in create_pdf
+    time.sleep()
+TypeError: time.sleep() takes exactly one argument (0 given)
+Traceback (most recent call last):
+  File "/home/tuimac/github/autopagepdf/src/AutoPagePdf.py", line 169, in <module>
+    create_pdf(data, driver_path)
+  File "/home/tuimac/github/autopagepdf/src/AutoPagePdf.py", line 155, in create_pdf
+    if __check_exclude_word(url) is False:
+  File "/home/tuimac/github/autopagepdf/src/AutoPagePdf.py", line 60, in __check_exclude_word
+    if CONF['EXCULDE_WORD'] == '':
+KeyError: 'EXCULDE_WORD'
+Traceback (most recent call last):
+  File "/home/tuimac/github/autopagepdf/src/AutoPagePdf.py", line 169, in <module>
+    create_pdf(data, driver_path)
+  File "/home/tuimac/github/autopagepdf/src/AutoPagePdf.py", line 155, in create_pdf
+    if __check_exclude_word(url) is False:
+  File "/home/tuimac/github/autopagepdf/src/AutoPagePdf.py", line 64, in __check_exclude_word
+    result = response.read().decode()
+NameError: name 'response' is not defined

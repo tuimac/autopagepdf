@@ -13,9 +13,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 CONF = dict()
+DRIVER_MAP = {
+    "Linux": "chromedriver_linux64.zip",
+    "Darwin": "chromedriver_mac64.zip",
+    "Windows": "chromedriver_win32.zip"
+}
 
 def load_conf_file():
-    with open('config.json', 'r', encoding="utf-8_sig") as config:
+    with open('config.json', 'r', encoding='utf-8_sig') as config:
         global CONF
         CONF = json.load(config)
 
@@ -36,7 +41,6 @@ def import_excel() -> dict:
     return data
 
 def __check_chromedriver_path(os_type) -> str:
-    print(os_type)
     if os_type == 'Linux' or os_type == 'Darwin':
         driver_file_path = CONF['DRIVER_DIR']+ '/chromedriver'
         if os.path.exists(driver_file_path) is True:
@@ -45,13 +49,24 @@ def __check_chromedriver_path(os_type) -> str:
             return ''
     elif os_type == 'Windows':
         driver_file_path = CONF['DRIVER_DIR'] + '/chromedriver.exe'
-        print(driver_file_path)
         if os.path.exists(driver_file_path) is True:
             return driver_file_path
         else:
             return ''
     else:
         raise KeyError
+
+def __check_exclude_word(url):
+    if CONF['EXCLUDE_WORD'] == '':
+        return True
+    else:
+        with urllib.request.urlopen(url) as response:
+            result = response.read().decode()
+            print(result)
+            if CONF['EXCLUDE_WORD'] in result:
+                return False
+            else:
+                return True
 
 def download_chromedriver() -> str:
     try:
@@ -71,10 +86,10 @@ def download_chromedriver() -> str:
         handler.close()
         
         # Download the valid version Chrome driver for this machine
-        download_path = CONF['DRIVER_DIR'] + '/' + CONF['DRIVER_MAP'][os_type]
+        download_path = CONF['DRIVER_DIR'] + '/' + DRIVER_MAP[os_type]
         handler = urllib.request.urlretrieve(
-            'https://chromedriver.storage.googleapis.com/' + latest_driver_version + '/' + CONF['DRIVER_MAP'][os_type],
-            download_path 
+            'https://chromedriver.storage.googleapis.com/' + latest_driver_version + '/' + DRIVER_MAP[os_type],
+            download_path
         )
         with zipfile.ZipFile(download_path) as zip_handler:
             zip_handler.extractall(CONF['DRIVER_DIR'])
@@ -97,7 +112,6 @@ def download_chromedriver() -> str:
         os._exit(1)
 
 def create_pdf(data, driver_path):
-       
     # Setup Chrome options for prinr page as PDF
     chrome_option = webdriver.ChromeOptions()
     printer_config = {
@@ -138,11 +152,13 @@ def create_pdf(data, driver_path):
     driver = webdriver.Chrome(executable_path=driver_path, options=chrome_option)
     for key in data:
         url = data[key]
+        if __check_exclude_word(url) is False:
+            continue
         driver.implicitly_wait(10)
         driver.get(url)
         WebDriverWait(driver, 15).until(EC.presence_of_all_elements_located)
-        driver.execute_script('document.title="' + key + '";window.print();')
-        time.sleep(1)
+        driver.execute_script('document.title="' + str(key) + '";window.print();')
+        time.sleep(CONF['INTERVAL'])
     driver.quit()
 
 if __name__ == '__main__':
@@ -152,4 +168,5 @@ if __name__ == '__main__':
         driver_path = download_chromedriver()
         create_pdf(data, driver_path)
     except:
-        traceback.print_exc()
+        with open(CONF['LOG_FILE_PATH'], 'a', encoding='utf-8_sig') as f:
+            f.write(traceback.format_exc())
