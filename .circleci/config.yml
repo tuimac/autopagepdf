@@ -9,19 +9,31 @@ jobs:
           name: Install python3
           command: |
             sudo apt install python3-pip
-            pip3 install pyinstaller
+            pip3 install pyinstaller awscli
       - run:
           name: Build source
           working_directory: src
           command: |
-            pyinstaller AutoPagePdf.py
-            ls -al
+            pyinstaller --onefile AutoPagePdf.py
+            ls dist
+            aws --version
   build-mac:
     macos:
-      xcode: 12.5.1
+      xcode: 13.4.1
     steps:
       - checkout
-
+      - run:
+          name: Install python3
+          command: |
+            brew install python
+            pip3 install pyinstaller awscli           
+      - run:
+          name: Build source
+          working_directory: src
+          command: |
+            pyinstaller --onefile AutoPagePdf.py
+            ls dist
+            aws --version
 workflows:
   version: 2.1
   autopagepdf-pipeline:
