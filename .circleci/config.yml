@@ -60,7 +60,10 @@ workflows:
   version: 2.1
   autopagepdf-pipeline:
     jobs:
-      - build-linux
+      - build-windows
+      - build-linux:
+          requires:
+            - build-windows
       - build-mac:
           requires:
             - build-linux
