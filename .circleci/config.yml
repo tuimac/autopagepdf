@@ -26,4 +26,6 @@ workflows:
   autopagepdf-pipeline:
     jobs:
       - build-linux
-      - build-mac
+      - build-mac:
+          requires:
+            - build-linux
