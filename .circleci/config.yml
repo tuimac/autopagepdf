@@ -6,15 +6,15 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Install python3
-        command: |
-          sudo apt install python3-pip
-          pip3 install pyinstaller
+          name: Install python3
+          command: |
+            sudo apt install python3-pip
+            pip3 install pyinstaller
       - run: Build source
-        working_directory: src
-        command: |
-          pyinstaller AutoPagePdf.py
-          ls -al
+          working_directory: src
+          command: |
+            pyinstaller AutoPagePdf.py
+            ls -al
   build-mac:
     macos:
       xcode: 12.5.1
