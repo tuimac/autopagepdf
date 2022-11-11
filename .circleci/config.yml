@@ -15,9 +15,15 @@ jobs:
         command: |
           pyinstaller AutoPagePdf.py
           ls -al
+  build-mac:
+    macos:
+      xcode: 12.5.1
+    steps:
+      - checkout
 
 workflows:
   version: 2.1
-  openvpn-pipeline:
+  autopagepdf-pipeline:
     jobs:
       - build-linux
+      - build-mac
