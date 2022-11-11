@@ -19,7 +19,8 @@ jobs:
           name: Build source
           working_directory: src
           command: |
-            pyinstaller --onefile AutoPagePdf.py
+            pyinstaller.exe --onefile AutoPagePdf.py
+            dir dist
             file dist/AutoPagePdf
             aws --version
   build-linux:
