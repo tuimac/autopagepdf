@@ -10,7 +10,8 @@ jobs:
           command: |
             sudo apt install python3-pip
             pip3 install pyinstaller
-      - run: Build source
+      - run:
+          name: Build source
           working_directory: src
           command: |
             pyinstaller AutoPagePdf.py
