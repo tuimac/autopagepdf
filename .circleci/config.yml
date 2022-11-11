@@ -1,5 +1,27 @@
 version: 2.1
+orbs:
+  win: circleci/windows@4.1.1
 jobs:
+  build-windows:
+    executor: win/server-2022
+    steps:
+      - checkout
+      - run:
+          name: Install python3
+          command: |
+            Set-ExecutionPolicy -Scope CurrentUser
+            $script = New-Object Net.WebClient
+            $script.DownloadString("https://chocolatey.org/install.ps1")
+            iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
+            choco install -y python3
+            pip3 install pyinstaller awscli
+      - run:
+          name: Build source
+          working_directory: src
+          command: |
+            pyinstaller --onefile AutoPagePdf.py
+            file dist/AutoPagePdf
+            aws --version
   build-linux:
     machine:
       image: ubuntu-2204:current
@@ -15,7 +37,7 @@ jobs:
           working_directory: src
           command: |
             pyinstaller --onefile AutoPagePdf.py
-            ls dist
+            file dist/AutoPagePdf
             aws --version
   build-mac:
     macos:
@@ -32,7 +54,7 @@ jobs:
           working_directory: src
           command: |
             pyinstaller --onefile AutoPagePdf.py
-            ls dist
+            file dist/AutoPagePdf
             aws --version
 workflows:
   version: 2.1
