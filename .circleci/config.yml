@@ -24,7 +24,7 @@ jobs:
             Copy-Item .\dist\AutoPagePdf.exe .\AutoPagePdf_windows\
             Copy-Item .\config.json .\AutoPagePdf_windows\
             Compress-Archive .\AutoPagePdf_windows\ AutoPagePdf_windows.zip
-            aws s3 cp .\AutoPagePdf_windows.zip s3://autopagepdf.tuimac.com/download/windows/AutoPagePdf_windows.zip
+            aws s3 cp .\AutoPagePdf_windows.zip s3://autopagepdf.tuimac.com/downloads/windows/AutoPagePdf_windows.zip
   build-linux:
     machine:
       image: ubuntu-2204:current
@@ -44,7 +44,7 @@ jobs:
             cp config.json AutoPagePdf_linux
             cp dist/AutoPagePdf AutoPagePdf_linux
             zip -r AutoPagePdf_linux.zip AutoPagePdf_linux/
-            aws s3 cp AutoPagePdf_linux.zip s3://autopagepdf.tuimac.com/download/linux/AutoPagePdf_linux.zip
+            aws s3 cp AutoPagePdf_linux.zip s3://autopagepdf.tuimac.com/downloads/linux/AutoPagePdf_linux.zip
   build-mac:
     macos:
       xcode: 13.4.1
@@ -64,7 +64,22 @@ jobs:
             cp config.json AutoPagePdf_mac
             cp dist/AutoPagePdf AutoPagePdf_mac
             zip -r AutoPagePdf_mac.zip AutoPagePdf_mac/
-            aws s3 cp AutoPagePdf_mac.zip s3://autopagepdf.tuimac.com/download/mac/AutoPagePdf_mac.zip
+            aws s3 cp AutoPagePdf_mac.zip s3://autopagepdf.tuimac.com/downloads/mac/AutoPagePdf_mac.zip
+  upload-homepage:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout
+      - run:
+          name: Install python3
+          command: |
+            sudo apt install python3-pip
+            pip3 install pyinstaller awscli
+      - run:
+          name: Build source
+          working_directory: download
+          command: |
+            aws s3 cp index.html s3://autopagepdf.tuimac.com/index.html
 workflows:
   version: 2.1
   autopagepdf-pipeline:
@@ -76,3 +91,6 @@ workflows:
       - build-mac:
           requires:
             - build-linux
+      - upload-homepage:
+          requires:
+            - build-mac
