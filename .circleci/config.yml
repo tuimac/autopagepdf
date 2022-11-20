@@ -63,7 +63,7 @@ jobs:
             mkdir AutoPagePdf_linux
             cp config.json AutoPagePdf_mac
             cp dist/AutoPagePdf AutoPagePdf_mac
-            zip -r AutoPagePdf_mac.zip AutoPagePdf_mac/
+            zip -r AutoPagePdf_mac.zip . -i AutoPagePdf_mac/
             aws s3 cp AutoPagePdf_mac.zip s3://autopagepdf.tuimac.com/downloads/mac/AutoPagePdf_mac.zip
   upload-homepage:
     machine:
