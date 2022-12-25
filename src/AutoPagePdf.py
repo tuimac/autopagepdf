@@ -142,9 +142,11 @@ def create_pdf(data, driver_path):
         'download.open_pdf_in_system_reader': False,
         'download.prompt_for_download': False,
         'plugins.always_open_pdf_externally': True,
-        'profile.default_content_settings.popups': 0
+        'profile.default_content_settings.popups': 0,
+
     }
 
+    chrome_option.add_experimental_option('excludeSwitches', ['enable-logging'])
     chrome_option.add_experimental_option('prefs', prefs)
     chrome_option.add_argument('--kiosk-printing')
 
