@@ -20,9 +20,8 @@ jobs:
           working_directory: src
           command: |
             pyinstaller.exe --onefile AutoPagePdf.py
-            cd dist
+            cp .\dist\AutoPagePdf.exe .
             .\AutoPagePdf.exe
-            cd ..
             New-Item AutoPagePdf_windows -ItemType Directory
             Copy-Item .\dist\AutoPagePdf.exe .\AutoPagePdf_windows\
             Copy-Item .\config.json .\AutoPagePdf_windows\
@@ -43,9 +42,8 @@ jobs:
           working_directory: src
           command: |
             pyinstaller --onefile AutoPagePdf.py
-            cd dist
+            cp dist/AutoPagePdf .
             ./AutoPagePdf
-            cd ..
             mkdir AutoPagePdf_linux
             cp config.json AutoPagePdf_linux
             cp dist/AutoPagePdf AutoPagePdf_linux
@@ -66,9 +64,8 @@ jobs:
           working_directory: src
           command: |
             pyinstaller --onefile AutoPagePdf.py
-            cd dist
+            cp dist/AutoPagePdf .
             ./AutoPagePdf
-            cd ..
             mkdir AutoPagePdf_linux
             cp config.json AutoPagePdf_mac
             cp dist/AutoPagePdf AutoPagePdf_mac
