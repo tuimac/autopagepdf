@@ -152,16 +152,19 @@ def create_pdf(data, driver_path):
 
     # Create PDF from each url website
     driver = webdriver.Chrome(executable_path=driver_path, options=chrome_option)
-    for key in data:
-        url = data[key]
-        if __check_exclude_word(url) is False:
-            continue
-        driver.implicitly_wait(10)
-        driver.get(url)
-        WebDriverWait(driver, 15).until(EC.presence_of_all_elements_located)
-        driver.execute_script('document.title="' + str(key) + '";window.print();')
-        time.sleep(CONF['INTERVAL'])
-    driver.quit()
+    try:
+        for key in data:
+            url = data[key]
+            if __check_exclude_word(url) is False:
+                continue
+            driver.implicitly_wait(10)
+            driver.get(url)
+            WebDriverWait(driver, 15).until(EC.presence_of_all_elements_located)
+            driver.execute_script('document.title="' + str(key) + '";window.print();')
+            time.sleep(CONF['INTERVAL'])
+        driver.quit()
+    except:
+        pass
 
 if __name__ == '__main__':
     try:
