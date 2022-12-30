@@ -1,5 +1,6 @@
 chromedriver
-pdf.xlsx
+*.xlsx
 src/AutoPagePdf.spec
 src/dist/
 src/build/
+*.log

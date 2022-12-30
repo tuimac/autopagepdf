@@ -1,6 +1,6 @@
 {
-    "CHROME_VERSION": "106.0.5249.119",
-    "EXCEL_FILE_PATH": "PDF化.xlsx",
+    "CHROME_VERSION": "108.0.5359.124 ",
+    "EXCEL_FILE_PATH": "pdf.xlsx",
     "EXCEL_SHEET_NAME": "シート1",
     "EXCEL_DATA_CONFIG": {
         "START_ROW": 2,
