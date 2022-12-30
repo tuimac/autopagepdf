@@ -4,6 +4,7 @@ import sys
 import platform
 import urllib.request
 import logging.config
+from urllib.request import urlopen
 from time import sleep
 from zipfile import ZipFile
 from traceback import print_exc, format_exc
@@ -15,11 +16,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-DRIVER_MAP = {
-    "Linux": "chromedriver_linux64.zip",
-    "Darwin": "chromedriver_mac64.zip",
-    "Windows": "chromedriver_win32.zip"
-}
 CONFIG_PATH = 'config.json'
 
 def load_conf_file():
@@ -84,16 +80,19 @@ def import_excel() -> dict:
     return data
 
 def __check_exclude_word(url):
-    if CONF['EXCLUDE_WORD'] == '':
+    if len(CONF['EXCLUDE_WORDS']) == 0:
         return True
     else:
         with urllib.request.urlopen(url) as response:
             result = response.read().decode()
-            print(result)
-            if CONF['EXCLUDE_WORD'] in result:
-                return False
-            else:
-                return True
+            for exculde_word in CONF['EXCLUDE_WORDS']:
+                if exculde_word in result:
+                    return False
+            return True
+
+def __dump_error_urls(url):
+    with open(CONF['ERROR_URL_LIST_FILE'], 'a') as f:
+        f.write(str(url) + '\n')
 
 def create_pdf(data):
     # Setup Chrome options for prinr page as PDF
@@ -140,7 +139,12 @@ def create_pdf(data):
     for key in data:
         try:
             url = data[key]
+            with urlopen(url) as response:
+                if response.getcode() != 200:
+                    __dump_error_urls(url)
+                    continue
             if __check_exclude_word(url) is False:
+                __dump_error_urls(url)
                 continue
             driver.get(url)
             WebDriverWait(driver, 15).until(EC.presence_of_all_elements_located)
@@ -149,6 +153,7 @@ def create_pdf(data):
         except urllib.error.HTTPError:
             print_exc()
             logger.error(url + ' is invalid url. So cannot reachable.')
+            __dump_error_urls(url)
         except:
             print_exc()
             logger.error(format_exc())

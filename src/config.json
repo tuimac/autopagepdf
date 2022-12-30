@@ -7,6 +7,9 @@
         "URL_COLUMN": 3
     },
     "LOG_FILE_PATH": "execution.log",
+    "ERROR_URL_LIST_FILE": "error_urils.txt",
     "INTERVAL": 0.5,
-    "EXCLUDE_WORD": "情報の更新が行われたか、削除されました。"
+    "EXCLUDE_WORDS": [
+        "情報の更新が行われたか、削除されました。"
+    ]
 }
