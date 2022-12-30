@@ -14,7 +14,7 @@ jobs:
             $script.DownloadString("https://chocolatey.org/install.ps1")
             iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
             choco install -y python3
-            pip3 install pyinstaller awscli openpyxl selenium
+            pip3 install pyinstaller awscli openpyxl selenium webdriver-manager
       - run:
           name: Build source
           working_directory: src
@@ -36,7 +36,7 @@ jobs:
           name: Install python3
           command: |
             sudo apt install python3-pip
-            pip3 install pyinstaller awscli openpyxl selenium
+            pip3 install pyinstaller awscli openpyxl selenium webdriver-manager
       - run:
           name: Build source
           working_directory: src
@@ -58,7 +58,7 @@ jobs:
           name: Install python3
           command: |
             brew install python
-            pip3 install pyinstaller awscli openpyxl selenium
+            pip3 install pyinstaller awscli openpyxl selenium webdriver-manager
       - run:
           name: Build source
           working_directory: src
