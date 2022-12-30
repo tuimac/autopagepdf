@@ -9,6 +9,7 @@ from zipfile import ZipFile
 from traceback import print_exc, format_exc
 from os import chmod, path, _exit, getcwd
 from logging import getLogger
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -82,23 +83,6 @@ def import_excel() -> dict:
             row += 1
     return data
 
-
-def __check_chromedriver_path(os_type) -> str:
-    if os_type == 'Linux' or os_type == 'Darwin':
-        driver_file_path = CONF['DRIVER_DIR']+ '/chromedriver'
-        if path.exists(driver_file_path) is True:
-            return driver_file_path
-        else:
-            return ''
-    elif os_type == 'Windows':
-        driver_file_path = CONF['DRIVER_DIR'] + '/chromedriver.exe'
-        if path.exists(driver_file_path) is True:
-            return driver_file_path
-        else:
-            return ''
-    else:
-        raise KeyError
-
 def __check_exclude_word(url):
     if CONF['EXCLUDE_WORD'] == '':
         return True
@@ -111,41 +95,7 @@ def __check_exclude_word(url):
             else:
                 return True
 
-def download_chromedriver() -> str:
-    os_type = platform.system()
-    
-    # Confirm if there is Chrome driver under the DRIVER_DIR
-    chromedriver_path = __check_chromedriver_path(os_type)
-    if chromedriver_path != '':
-        return chromedriver_path
-
-    # Get the latest version information for Chrome on this machine
-    main_chrome_version = CONF['CHROME_VERSION'].split('.')[0]
-    handler = urllib.request.urlopen(
-        'https://chromedriver.storage.googleapis.com/LATEST_RELEASE_' + main_chrome_version
-    )
-    latest_driver_version = handler.read().decode()
-    handler.close()
-    
-    # Download the valid version Chrome driver for this machine
-    download_path = CONF['DRIVER_DIR'] + '/' + DRIVER_MAP[os_type]
-    handler = urllib.request.urlretrieve(
-        'https://chromedriver.storage.googleapis.com/' + latest_driver_version + '/' + DRIVER_MAP[os_type],
-        download_path
-    )
-    with ZipFile(download_path) as zip_handler:
-        zip_handler.extractall(CONF['DRIVER_DIR'])
-    remove(download_path)
-
-    # Confirm if there is Chrome driver under the DRIVER_DIR
-    chromedriver_path = __check_chromedriver_path(os_type)
-    if chromedriver_path == '':
-        raise KeyError
-    else:
-        chmod(chromedriver_path, 0o755)
-        return chromedriver_path
-
-def create_pdf(data, driver_path):
+def create_pdf(data):
     # Setup Chrome options for prinr page as PDF
     chrome_option = webdriver.ChromeOptions()
     printer_config = {
@@ -185,7 +135,7 @@ def create_pdf(data, driver_path):
     chrome_option.add_argument('--kiosk-printing')
 
     # Create PDF from each url website
-    driver = webdriver.Chrome(executable_path=driver_path, options=chrome_option)
+    driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_option)
 
     for key in data:
         try:
@@ -208,8 +158,7 @@ if __name__ == '__main__':
     try:
         load_conf_file()
         data = import_excel()
-        driver_path = download_chromedriver()
-        create_pdf(data, driver_path)
+        create_pdf(data)
     except:
         print_exc()
         logger.error(format_exc())

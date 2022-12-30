@@ -1,5 +1,4 @@
 {
-    "CHROME_VERSION": "108.0.5359.124 ",
     "EXCEL_FILE_PATH": "pdf.xlsx",
     "EXCEL_SHEET_NAME": "シート1",
     "EXCEL_DATA_CONFIG": {
@@ -7,7 +6,6 @@
         "ID_COLUMN": 1,
         "URL_COLUMN": 3
     },
-    "DRIVER_DIR": ".",
     "LOG_FILE_PATH": "execution.log",
     "INTERVAL": 0.5,
     "EXCLUDE_WORD": "情報の更新が行われたか、削除されました。"
