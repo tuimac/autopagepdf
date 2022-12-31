@@ -4,3 +4,4 @@ src/AutoPagePdf.spec
 src/dist/
 src/build/
 *.log
+.DS_Store
