@@ -1,5 +1,5 @@
 # Create web page PDF automatically
-[![CircleCI](https://circleci.com/gh/tuimac/openvpn.svg?style=shield)](https://circleci.com/gh/tuimac/openvpn)
+[![CircleCI](https://circleci.com/gh/tuimac/autopagepdf.svg?style=shield)](https://circleci.com/gh/tuimac/autopagepdf)
 
 This tool is the web page PDF printing automation tool. If you define the web page urls, PDF file name in Excel, this tool execute to take PDF for the target web pages.
 
@@ -20,7 +20,7 @@ The meaning of each parameter is below:
 | ----- | ----- |
 | EXCEL_FILE_PATH | Excel file path you define the url and file name. |
 | EXCEL_SHEET_NAME | The sheet name in the Excel workbook you define the url and file name. |
-| EXCEL_DATA_CONFIG | <font color="AntiqueWhite">START_ROW</font>: This script read each row value in Excel sheet so define where you want to start.<br/><font color="AntiqueWhite">ID_COLUMN</font>: PDF file name colume number. Excel column number start from 1. Ex) A column is 1.<br/><font color="AntiqueWhite">URL_COLUMN</font>: Url column number. Excel column number start from 1. Ex) A column is 1. |
+| EXCEL_DATA_CONFIG | **●START_ROW**: This script read each row value in Excel sheet so define where you want to start.<br/>**●ID_COLUMN**</font>: PDF file name colume number. Excel column number start from 1. Ex) A column is 1.<br/>**●URL_COLUMN**: Url column number. Excel column number start from 1. Ex) A column is 1. |
 | LOG_FILE_PATH | Log file path for debug this program. You need to choose the folder or directory you have the grant to create the file. |
 | ERROR_URL_LIST_FILE | The list file which collect the invalid urls. You need to choose the folder or directory you have the grant to create the file. |
 | INTERVAL | The interval for reading each row in the defined Excel worksheet. Unit is seconds. |
